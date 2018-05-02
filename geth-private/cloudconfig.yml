@@ -4,7 +4,6 @@ users:
   - name: ethereum
     gecos: Ethereum
     sudo: None
-    groups: users
     lock_passwd: true
     # ssh_authorized_keys:
       # - Add your ssh keys here
@@ -36,7 +35,7 @@ write_files:
       WorkingDirectory=/home/ethereum/
       Type=simple
 
-      ExecStart=/usr/bin/geth --nousb --rpc --rpcaddr 0.0.0.0 --rpcapi db,eth,net,web3,personal,shh,txpool,admin,miner,debug --rpcvhosts 0.0.0.0 --ws --wsaddr 0.0.0.0 --wsapi db,eth,net,web3,personal,shh,txpool,admin,miner,debug 
+      ExecStart=/usr/bin/geth --nousb --rpc --rpcaddr 0.0.0.0 --rpcapi db,eth,net,web3,personal,shh,txpool,admin,miner,debug --rpcvhosts 0.0.0.0 --ws --wsaddr 0.0.0.0 --wsapi db,eth,net,web3,personal,shh,txpool,admin,miner,debug
       Restart=always
       RestartSec=10
 

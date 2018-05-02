@@ -4,7 +4,6 @@ users:
   - name: ethereum
     gecos: Ethereum
     sudo: None
-    groups: users
     lock_passwd: true
     # ssh_authorized_keys:
       # - Add your ssh keys here

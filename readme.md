@@ -11,6 +11,7 @@ Cloud config files to install and run Ethereum node.
 
 ### Parity
 
+* [Private](parity-private/cloudconfig.yml).
 * [Public](parity-public/cloudconfig.yml).
 * [Public Ropsten](parity-public-ropsten/cloudconfig.yml) (PoW test network).
 * [Public Kovan](parity-public-kovan/cloudconfig.yml) (PoS test network).

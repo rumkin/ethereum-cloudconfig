@@ -1,0 +1,51 @@
+#cloud-config
+
+users:
+  - name: ethereum
+    gecos: Ethereum
+    sudo: None
+    groups: users
+    lock_passwd: true
+    # ssh_authorized_keys:
+      # - Add your ssh keys here
+
+apt:
+  sources:
+    ethereum-ppa.list:
+      source: 'ppa:ethereum/ethereum'
+      keyid: 923F6CA9
+
+package_update: true
+
+packages:
+ - ethereum
+
+write_files:
+  - path: /etc/systemd/system/geth.service
+    owner: root:root
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=Geth Node
+      After=network.target
+
+      [Service]
+      User=ethereum
+      Group=ethereum
+      WorkingDirectory=/home/ethereum/
+      Type=simple
+
+      ExecStart=/usr/bin/geth --rinkeby --nousb --rpc --rpcaddr 0.0.0.0 --rpcapi db,eth,net,web3,personal,shh --rpcvhosts "*" --rpccorsdomain "*" --ws --wsaddr 0.0.0.0 --wsorigins "*" --wsapi db,eth,net,web3,personal,shh
+      Restart=always
+      RestartSec=10
+
+      [Install]
+      WantedBy=multi-user.target
+
+runcmd:
+ - systemctl enable geth.service
+ - systemctl start geth.service
+
+# phone_home:
+#  url: http://my.example.com/$INSTANCE_ID/
+#  post: [ pub_key_dsa, pub_key_rsa, pub_key_ecdsa, instance_id ]

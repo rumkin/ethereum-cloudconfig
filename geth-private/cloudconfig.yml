@@ -1,0 +1,60 @@
+#cloud-config
+
+users:
+  - name: ethereum
+    gecos: Ethereum
+    sudo: None
+    groups: users
+    lock_passwd: true
+    # ssh_authorized_keys:
+      # - Add your ssh keys here
+
+apt:
+  sources:
+    ethereum-ppa.list:
+      source: 'ppa:ethereum/ethereum'
+      keyid: 923F6CA9
+
+package_update: true
+
+packages:
+ - iptables-persistent
+ - ethereum
+
+write_files:
+  - path: /etc/systemd/system/geth.service
+    owner: root:root
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=Geth Node
+      After=network.target
+
+      [Service]
+      User=ethereum
+      Group=ethereum
+      WorkingDirectory=/home/ethereum/
+      Type=simple
+
+      ExecStart=/usr/bin/geth --nousb --rpc --rpcaddr 0.0.0.0 --rpcapi db,eth,net,web3,personal,shh,txpool,admin,miner,debug --rpcvhosts 0.0.0.0 --ws --wsaddr 0.0.0.0 --wsapi db,eth,net,web3,personal,shh,txpool,admin,miner,debug 
+      Restart=always
+      RestartSec=10
+
+      [Install]
+      WantedBy=multi-user.target
+
+runcmd:
+ - iptables -P INPUT DROP
+ - iptables -A INPUT -i lo -j ACCEPT
+ - iptables -A INPUT -m state --state ESTABLISHED, RELATED -j ACCEPT
+ - iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+ - iptables -A INPUT -p tcp --dport 30303 -j ACCEPT
+ - iptables -A INPUT -p udp --dport 30303 -j ACCEPT
+ - iptables -P FORWARD DROP
+ - iptables-persistent save
+ - systemctl enable geth.service
+ - systemctl start geth.service
+
+# phone_home:
+#  url: http://my.example.com/$INSTANCE_ID/
+#  post: [ pub_key_dsa, pub_key_rsa, pub_key_ecdsa, instance_id ]

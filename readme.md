@@ -1,6 +1,8 @@
 # Ethereum CloudConfig
 
-Cloud config files to install and run Ethereum node.
+[Cloud-init](https://cloud-init.io) config files to install and run Ethereum node.
+Cloud configs are supported by most popular cloud providers: AWS, DigitalOcean,
+Hetzner, etc. This files allow to setup Ethereum nodes in seconds.
 
 ### Geth
 

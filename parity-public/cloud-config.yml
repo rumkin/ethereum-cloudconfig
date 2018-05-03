@@ -23,7 +23,7 @@ write_files:
       WorkingDirectory=/home/ethereum/
       Type=simple
 
-      ExecStart=/usr/bin/parity --no-ui --no-ipc --jsonrpc-interface=0.0.0.0 --jsonrpc-hosts=all --jsonrpc-cors=all --ws-interface=0.0.0.0 --ws-origins=all --ws-hosts=all --no-dapps --no-secretstore
+      ExecStart=/usr/bin/parity --no-ui --no-ipc --jsonrpc-interface=0.0.0.0 --jsonrpc-hosts=all --jsonrpc-cors=all --jsonrpc-apis=eth --ws-interface=0.0.0.0 --ws-origins=all --ws-hosts=all --ws-apis=eth --no-dapps --no-secretstore
       Restart=always
       RestartSec=10
 
